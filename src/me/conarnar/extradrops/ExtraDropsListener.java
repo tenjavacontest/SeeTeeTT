@@ -2,8 +2,10 @@ package me.conarnar.extradrops;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EnderSignal;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.Enderman;
 import org.bukkit.entity.LargeFireball;
+import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.SmallFireball;
@@ -15,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
 public class ExtraDropsListener implements Listener {
@@ -28,7 +31,8 @@ public class ExtraDropsListener implements Listener {
 	 * Listens for EntityDeathEvent to know every time a mob dies.
 	 * @param evt - The event to listen for.
 	 */
-	@EventHandler
+	@SuppressWarnings("deprecation")
+	@EventHandler()
 	public void onEntityDeath(EntityDeathEvent evt) {
 		double odds = plugin.getConfig().getDouble(evt.getEntityType().name());
 		
@@ -50,13 +54,18 @@ public class ExtraDropsListener implements Listener {
 				evt.getEntity().launchProjectile(Snowball.class);
 				break;
 			case COW:
-				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.WATER, (byte) 127);
+				// TODO
 				break;
 			case CREEPER:
-				evt.getEntity().getWorld().spawn(evt.getEntity().getEyeLocation(), TNTPrimed.class).setIsIncendiary(true);
+				TNTPrimed tnt = evt.getEntity().getWorld().spawn(evt.getEntity().getEyeLocation(), TNTPrimed.class);
+				tnt.setIsIncendiary(true);
 				break;
 			case ENDERMAN:
-				evt.getEntity().getWorld().spawn(evt.getEntity().getEyeLocation(), EnderSignal.class);
+				evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), EnderCrystal.class);
+				MaterialData data3;
+				if ((data3 = ((Enderman) evt.getEntity()).getCarriedMaterial()) != null) {
+					evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), data3.getItemType(), data3.getData()).setVelocity(evt.getEntity().getEyeLocation().getDirection());
+				}
 				break;
 			case GHAST:
 				for (int i = 0; i < 10; i++) {
@@ -76,7 +85,8 @@ public class ExtraDropsListener implements Listener {
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.PUMPKIN, (byte) 0);
 				break;
 			case MAGMA_CUBE:
-				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.LAVA, (byte) 127);
+				if(((MagmaCube) evt.getEntity()).getSize() == 1) evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.FIRE, (byte) 0).setDropItem(false);
+				else evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.LAVA, (byte) 127).setDropItem(false);
 				break;
 			case MUSHROOM_COW:
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.RED_MUSHROOM, (byte) 0);
@@ -92,7 +102,6 @@ public class ExtraDropsListener implements Listener {
 				evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Pig.class);
 				break;
 			case SHEEP:
-				@SuppressWarnings("deprecation")
 				byte data = ((Sheep) evt.getEntity()).getColor().getWoolData();
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.WOOL, data);
 				break;
@@ -131,7 +140,7 @@ public class ExtraDropsListener implements Listener {
 				// TODO
 				break;
 			case ZOMBIE:
-				// TODO
+				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.SKULL, (byte) 2);
 				break;
 			default:
 				break;
