@@ -1,5 +1,5 @@
 name: PluginName
 version: 1.0.0
-description: Description of the plugin
+description: Sometimes mobs might give you a surprise...
 author: SeeTeeTT
-main: me.conarnar.rename.Rename
+main: me.conarnar.baddrops.BadDrops
