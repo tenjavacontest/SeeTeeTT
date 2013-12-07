@@ -5,7 +5,7 @@ import java.util.Random;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ExtraDrops extends JavaPlugin {
-	private Random rand = new Random();
+	public Random rand = new Random();
 	
 	public void onEnable() {
 		saveDefaultConfig();
