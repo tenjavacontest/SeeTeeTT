@@ -1,23 +1,14 @@
 package me.conarnar.extradrops;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EnderCrystal;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.LargeFireball;
-import org.bukkit.entity.MagmaCube;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.entity.Snowball;
-import org.bukkit.entity.TNTPrimed;
-import org.bukkit.entity.ThrownPotion;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 public class ExtraDropsListener implements Listener {
@@ -98,8 +89,34 @@ public class ExtraDropsListener implements Listener {
 				// TODO
 				break;
 			case PIG_ZOMBIE:
-				evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Zombie.class);
-				evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Pig.class);
+				Zombie zombie = evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Zombie.class);
+				Pig pig = evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Pig.class);
+				PigZombie pz = (PigZombie) evt.getEntity();
+				zombie.setBaby(pz.isBaby());
+				if (pz.isBaby()) pig.setBaby();
+				else pig.setAdult();
+				pig.setMaxHealth(1);
+				zombie.setMaxHealth(1);
+				zombie.setVillager(pz.isVillager());
+				EntityEquipment ze = zombie.getEquipment();
+				EntityEquipment pe = pz.getEquipment();
+				ze.setArmorContents(pe.getArmorContents());
+				ze.setItemInHand(pe.getItemInHand());
+				ze.setBootsDropChance(pe.getBootsDropChance());
+				ze.setLeggingsDropChance(pe.getLeggingsDropChance());
+				ze.setChestplateDropChance(pe.getChestplateDropChance());
+				ze.setHelmetDropChance(pe.getHelmetDropChance());
+				pig.setFireTicks(pz.getFireTicks());
+				zombie.setFireTicks(pz.getFireTicks());
+				pig.setVelocity(pz.getVelocity());
+				zombie.setVelocity(pz.getVelocity());
+				pig.setTarget(pz.getTarget());
+				zombie.setTarget(pz.getTarget());
+				for (PotionEffect effect: pz.getActivePotionEffects()) {
+					pig.addPotionEffect(effect);
+					zombie.addPotionEffect(effect);
+				}
+				
 				break;
 			case SHEEP:
 				byte data = ((Sheep) evt.getEntity()).getColor().getWoolData();
