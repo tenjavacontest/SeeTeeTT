@@ -1,27 +1,15 @@
-package me.conarnar.baddrops;
+package me.conarnar.extradrops;
 
 import java.util.Random;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BadDrops extends JavaPlugin {
+public class ExtraDrops extends JavaPlugin {
 	private Random rand = new Random();
-	public double odds;
 	
 	public void onEnable() {
-		// registering listener
-		getServer().getPluginManager().registerEvents(new BadDropsListener(this), this);
-		
-		// getting config
-		odds = getConfig().getDouble("odds", 0.06);
-		
-		// checking if the value given for the config is valid
-		if (odds < 0) odds = 0;
-		else if (odds > 1) odds = 1;
-		
-		// saving to config the value of odds
-		// if it wasn't given, or there was no config file, this will create one
-		getConfig().set("odds", odds);
+		saveDefaultConfig();
+		getServer().getPluginManager().registerEvents(new ExtraDropsListener(this), this);
 	}
 	
 	/**
