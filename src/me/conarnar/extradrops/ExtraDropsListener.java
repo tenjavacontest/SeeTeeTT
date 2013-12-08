@@ -30,9 +30,6 @@ public class ExtraDropsListener implements Listener {
 		// decides whether to add the extra "drops" or not
 		if (plugin.chance(odds)) {
 			switch (evt.getEntityType()) {
-			case BAT:
-				// TODO
-				break;
 			case BLAZE:
 				for (int i = 0; i < 10; i++) {
 					evt.getEntity().launchProjectile(SmallFireball.class).setDirection(new Vector(plugin.rand.nextGaussian(), plugin.rand.nextGaussian(), plugin.rand.nextGaussian()));
@@ -43,9 +40,6 @@ public class ExtraDropsListener implements Listener {
 				break;
 			case CHICKEN:
 				evt.getEntity().launchProjectile(Snowball.class);
-				break;
-			case COW:
-				// TODO
 				break;
 			case CREEPER:
 				TNTPrimed tnt = evt.getEntity().getWorld().spawn(evt.getEntity().getEyeLocation(), TNTPrimed.class);
@@ -68,9 +62,6 @@ public class ExtraDropsListener implements Listener {
 					evt.getDrops().add(new ItemStack(Material.ROTTEN_FLESH));
 				}
 				break;
-			case HORSE:
-				// TODO
-				break;
 			case IRON_GOLEM:
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getLocation(), Material.IRON_BLOCK, (byte) 0);
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.PUMPKIN, (byte) 0);
@@ -81,12 +72,6 @@ public class ExtraDropsListener implements Listener {
 				break;
 			case MUSHROOM_COW:
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.RED_MUSHROOM, (byte) 0);
-				break;
-			case OCELOT:
-				// TODO
-				break;
-			case PIG:
-				// TODO
 				break;
 			case PIG_ZOMBIE:
 				Zombie zombie = evt.getEntity().getWorld().spawn(evt.getEntity().getLocation(), Zombie.class);
@@ -122,16 +107,10 @@ public class ExtraDropsListener implements Listener {
 				byte data = ((Sheep) evt.getEntity()).getColor().getWoolData();
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.WOOL, data);
 				break;
-			case SILVERFISH:
-				// TODO
-				break;
 			case SKELETON:
 				for (int i = 0; i < 10; i++) {
 					evt.getEntity().launchProjectile(Arrow.class).setVelocity(new Vector(plugin.rand.nextGaussian(), plugin.rand.nextGaussian(), plugin.rand.nextGaussian()).normalize());
 				}
-				break;
-			case SLIME:
-				// TODO
 				break;
 			case SNOWMAN:
 				for (int i = 0; i < 10; i++) {
@@ -146,15 +125,9 @@ public class ExtraDropsListener implements Listener {
 					evt.getDrops().add(new ItemStack(Material.INK_SACK));
 				}
 				break;
-			case VILLAGER:
-				// TODO
-				break;
 			case WITCH:
 				short[] data2 = new short[] {16481, 16482, 16489, 16484};
 				evt.getEntity().getWorld().spawn(evt.getEntity().getEyeLocation(), ThrownPotion.class).setItem(new ItemStack(Material.POTION, 1, data2[plugin.rand.nextInt(data2.length)]));
-				break;
-			case WOLF:
-				// TODO
 				break;
 			case ZOMBIE:
 				evt.getEntity().getWorld().spawnFallingBlock(evt.getEntity().getEyeLocation(), Material.SKULL, (byte) 2);
